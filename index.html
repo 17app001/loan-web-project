@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>貸款試算器</title>
+</head>
+
+<body>
+    <h1>貸款試算器(每月還款金額)</h1>
+    <label for="amount">貸款金額</label>
+    <input type="text" id="amount">
+    <br>
+    <div>
+        <label for="proid-1">貸款年限</label>
+        <input type="text" id="proid-1">
+        <select name="proid-2" id="proid-2">
+            <option value="1">3</option>
+            <option value="1">5</option>
+            <option value="1">7</option>
+            <option value="1">10</option>
+            <option value="1" selected>20</option>
+            <option value="1">30</option>
+        </select>
+        年
+    </div>
+    <label for="fee">相關費用</label>
+    <input type="text" id="fee">
+    <br>
+    <label for="fee">年利率&nbsp&nbsp&nbsp&nbsp</label>
+    <input type="text" id="rate" value="1.8">&nbsp%
+    <br>
+    <label for="event-1">還款方式</label>
+    <input type="radio" name="event" id="event-1" value="本息攤還" checked>
+    <label for="event-1">本息攤還</label>
+    <input type="radio" name="event" id="event-2" value="本金攤還">
+    <label for="event-1">本金攤還</label>
+    <br>
+    <input type="button" onclick="clac()" value="計算">
+
+    <div id="result">
+        <h2>結果試算</h2>
+
+    </div>
+
+    <script>
+        function clac() {
+            console.log("click!");
+        }
+    </script>
+</body>
+
+</html>
