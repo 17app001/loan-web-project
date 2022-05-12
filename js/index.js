@@ -94,15 +94,14 @@ function calc() {
             event1(amount, rate / 100, priod * 12) :
             event2(amount, rate / 100, priod * 12)
 
-        const resultEL = document.querySelector("#result");
+        const resultEL = document.querySelector("#result tbody");
         resultEL.innerHTML = "";
         let count = 0;
         let message = "";
         let totalInterest = 0;
         resultArray.forEach(result => {
             totalInterest += result[1];
-            message += `<li>第${count + 1}個月\t ${result[0]} | ${result[1]} | ${result[2]}</li>`;
-
+            message += `<tr><td>第${count + 1}個月</td><td>${result[0]}</td><td>${result[1]}</td> <td>${result[2]}</td></tr>`;
             count++;
         });
 
@@ -117,6 +116,9 @@ function calc() {
         }
 
         resultEL.innerHTML = message;
+        window.scrollTo(0, 300);
+
+        // window.scrollTo(0, document.body.scrollHeight);
 
     } catch (e) {
         alert(e);
