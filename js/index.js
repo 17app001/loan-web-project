@@ -6,12 +6,45 @@ const rateEl = document.querySelector("#rate");
 const event1El = document.querySelector("#event-1");
 const event2El = document.querySelector("#event-2");
 
+priodEl.value = Number(priodSelectEl.options[priodSelectEl.selectedIndex].text);
 priodSelectEl.addEventListener("change", () => {
     priodEl.value = Number(priodSelectEl.options[priodSelectEl.selectedIndex].text);
 });
 
+
+// 本息平均攤還
+function event1(amount, rate, priod) {
+    let tempTotalAmount = amount;
+    let resultArray = [];
+    let monthRate = rate / 12;
+
+    // {[(1＋月利率)^月數]×月利率}÷{[(1＋月利率)^月數]－1}
+    let payRate = (Math.pow((1 + monthRate), priod) * monthRate) /
+        ((Math.pow((1 + monthRate), priod) - 1));
+    // 平均攤還率
+    // System.out.println(payRate);
+    // 貸款本金×每月應付本息金額之平均攤還率(固定)
+    let monthPay = Math.round(tempTotalAmount * payRate);
+
+    // https://www.ks888.com.tw/www/bank1.htm
+    for (let i = 0; i < priod; i++) {
+        // 每月應付利息金額
+        let interest = Math.round(tempTotalAmount * monthRate);
+        let pay = monthPay - interest;
+        // 每月應還本金金額
+        tempTotalAmount -= pay;
+        resultArray[i] = [];
+        resultArray[i][0] = pay;
+        resultArray[i][1] = interest;
+        resultArray[i][2] = tempTotalAmount;
+    }
+
+    return resultArray;
+}
+
+
 // 本金平均攤還
-function event1(amount, priod, rate) {
+function event2(amount, rate, priod) {
     let tempTotalAmount = amount;
     let resultArray = new Array();
 
@@ -57,16 +90,33 @@ function calc() {
 
         console.log(amount, priod, fee, rate, event);
 
-        let resultArray = event1(amount, priod * 12, rate / 100);
+        let resultArray = event == 0 ?
+            event1(amount, rate / 100, priod * 12) :
+            event2(amount, rate / 100, priod * 12)
 
         const resultEL = document.querySelector("#result");
         resultEL.innerHTML = "";
         let count = 0;
+        let message = "";
+        let totalInterest = 0;
         resultArray.forEach(result => {
-            resultEL.innerHTML += `<li>第${count + 1}個月\t ${result[0]} | ${result[1]} | ${result[2]}</li>`;
-            count++;
+            totalInterest += result[1];
+            message += `<li>第${count + 1}個月\t ${result[0]} | ${result[1]} | ${result[2]}</li>`;
 
+            count++;
         });
+
+        if (event == 0) {
+            resultEL.innerHTML = `<h3>總支出:${amount + totalInterest + fee} 總計利息:${totalInterest} 
+            (每個月固定金額:${resultArray[0][0] + resultArray[0][1]})</h3>`
+                + message;
+
+        } else {
+            resultEL.innerHTML = `<h3>總支出:${amount + totalInterest + fee} 總計利息:${totalInterest}
+            (每個月金額不固定)
+            </h3>` + message;
+        }
+
 
     } catch (e) {
         alert(e);
