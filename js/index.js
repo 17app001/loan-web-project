@@ -106,17 +106,17 @@ function calc() {
             count++;
         });
 
+        const subtitleEl = document.querySelector("#subtitle");
         if (event == 0) {
-            resultEL.innerHTML = `<h3>總支出:${amount + totalInterest + fee} 總計利息:${totalInterest} 
-            (每個月固定金額:${resultArray[0][0] + resultArray[0][1]})</h3>`
-                + message;
+            subtitleEl.innerText = `總支出:${amount + totalInterest + fee} 總計利息:${totalInterest} 
+            (每個月固定金額:${resultArray[0][0] + resultArray[0][1]})`;
 
         } else {
-            resultEL.innerHTML = `<h3>總支出:${amount + totalInterest + fee} 總計利息:${totalInterest}
-            (每個月金額不固定)
-            </h3>` + message;
+            subtitleEl.innerText = `總支出:${amount + totalInterest + fee} 總計利息:${totalInterest} 
+            (每個月金額不固定)`;
         }
 
+        resultEL.innerHTML = message;
 
     } catch (e) {
         alert(e);
