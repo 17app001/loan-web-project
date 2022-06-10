@@ -34,9 +34,14 @@ function event1(amount, rate, priod) {
         // 每月應還本金金額
         tempTotalAmount -= pay;
         resultArray[i] = [];
+        if (tempTotalAmount < 0) {
+            pay += tempTotalAmount + interest;
+            tempTotalAmount = 0;
+        }
         resultArray[i][0] = pay;
         resultArray[i][1] = interest;
         resultArray[i][2] = tempTotalAmount;
+
     }
 
     return resultArray;
@@ -54,12 +59,19 @@ function event2(amount, rate, priod) {
         // 每月利息
         let interest = Math.round(tempTotalAmount * (rate / 12));
         tempTotalAmount -= pay;
-
+        // 利息為負數及最後一期
+        if (tempTotalAmount < 0 || i == priod - 1) {
+            pay += tempTotalAmount + interest;
+            tempTotalAmount = 0;
+        }
         // resultArray.push([pay, interest, tempTotalAmount]);
+
         resultArray[i] = new Array();
         resultArray[i][0] = pay;
         resultArray[i][1] = interest;
         resultArray[i][2] = tempTotalAmount;
+
+
     }
 
     return resultArray;
